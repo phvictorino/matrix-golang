@@ -21,7 +21,7 @@ func EchoHandler(response http.ResponseWriter, request *http.Request) {
 	go services.SumService(matrix, channel)
 	go services.MultiplyService(matrix, channel)
 
-	time.AfterFunc(time.Second*2, func() { close(channel) })
+	time.AfterFunc(time.Second*1, func() { close(channel) })
 
 	var sb strings.Builder
 	for channelResponse := range channel {

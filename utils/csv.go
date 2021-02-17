@@ -3,15 +3,20 @@ package utils
 import (
 	"encoding/csv"
 	"errors"
-	"fmt"
 	"net/http"
 	"strconv"
 )
 
 // CsvTransformer parse csv to matrix
 func CsvTransformer(response http.ResponseWriter, request *http.Request) [][]int {
-	reader := csv.NewReader(request.Body)
-	result, error := reader.ReadAll()
+
+	file, _, err := request.FormFile("file")
+	if err != nil {
+		http.Error(response, "Error to convert CSV", http.StatusInternalServerError)
+	}
+	defer file.Close()
+
+	result, error := csv.NewReader(file).ReadAll()
 
 	if error != nil {
 		http.Error(response, "Error to convert CSV", http.StatusInternalServerError)
@@ -20,20 +25,19 @@ func CsvTransformer(response http.ResponseWriter, request *http.Request) [][]int
 	intMatrix, convertError := convertValuesFromStringToInt(result)
 
 	if convertError != nil {
-		response.WriteHeader(http.StatusBadRequest)
-		response.Write([]byte(convertError.Error()))
+		http.Error(response, convertError.Error(), http.StatusBadRequest)
+	}
+
+	squareError := validateSquareMatrix(intMatrix)
+
+	if squareError != nil {
+		http.Error(response, squareError.Error(), http.StatusInternalServerError)
 	}
 
 	return intMatrix
 }
 
 func convertValuesFromStringToInt(matrix [][]string) ([][]int, error) {
-	squareError := validateSquareMatrix(matrix)
-
-	if squareError != nil {
-		return nil, squareError
-	}
-
 	newMatrix := make([][]int, len(matrix))
 	InitializeRowsOfSlice(newMatrix)
 
@@ -41,7 +45,7 @@ func convertValuesFromStringToInt(matrix [][]string) ([][]int, error) {
 		for indexColumn, column := range row {
 			result, error := strconv.Atoi(column)
 			if (error) != nil {
-				return nil, fmt.Errorf("Cannot cast element of the matrix to int: %v", error)
+				return nil, error
 			}
 			newMatrix[indexRow][indexColumn] = result
 		}
@@ -49,7 +53,7 @@ func convertValuesFromStringToInt(matrix [][]string) ([][]int, error) {
 	return newMatrix, nil
 }
 
-func validateSquareMatrix(matrix [][]string) error {
+func validateSquareMatrix(matrix [][]int) error {
 	var lengthRow, lengthColumn int
 	lengthRow = len(matrix)
 	for _, row := range matrix {

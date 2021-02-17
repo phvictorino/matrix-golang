@@ -2,14 +2,10 @@ package handlers
 
 import (
 	"net/http"
-	"test/matrixstring"
-	"test/utils"
+	"test/services"
 )
 
-// FlattenHandler flat given array
+// FlattenHandler handle with invert request
 func FlattenHandler(response http.ResponseWriter, request *http.Request) {
-	matrix := utils.CsvTransformer(response, request)
-	flattenArray := utils.FlatMatrixToArray(matrix)
-	resultString := matrixstring.TransformArrayToContinuousString(flattenArray)
-	response.Write([]byte(resultString))
+	services.GenericService(response, request, services.FlattenService)
 }

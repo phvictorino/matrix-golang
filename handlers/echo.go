@@ -2,13 +2,10 @@ package handlers
 
 import (
 	"net/http"
-	"test/matrixstring"
-	"test/utils"
+	"test/services"
 )
 
-// EchoHandler echoes the matrix
+// EchoHandler handle with echo request
 func EchoHandler(response http.ResponseWriter, request *http.Request) {
-	matrix := utils.CsvTransformer(response, request)
-	stringResult := matrixstring.TransformMatrixToString(matrix)
-	response.Write([]byte(stringResult))
+	services.GenericService(response, request, services.EchoService)
 }

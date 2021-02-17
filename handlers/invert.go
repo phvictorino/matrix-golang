@@ -2,23 +2,10 @@ package handlers
 
 import (
 	"net/http"
-	"test/matrixstring"
-	"test/utils"
+	"test/services"
 )
 
-// InvertHandler inverts the matrix
+// InvertHandler handle with invert request
 func InvertHandler(response http.ResponseWriter, request *http.Request) {
-	matrix := utils.CsvTransformer(response, request)
-	newArray := make([][]int, len(matrix))
-	utils.InitializeRowsOfSlice(newArray)
-
-	for indexRow, row := range matrix {
-		for indexColumn, column := range row {
-			newArray[indexColumn][indexRow] = column
-		}
-	}
-
-	formattedSlice := matrixstring.TransformMatrixToString(newArray)
-	response.Write([]byte(formattedSlice))
-
+	services.GenericService(response, request, services.InvertService)
 }

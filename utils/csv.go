@@ -51,11 +51,9 @@ func convertValuesFromStringToInt(matrix [][]string) ([][]int, error) {
 
 func validateSquareMatrix(matrix [][]string) error {
 	var lengthRow, lengthColumn int
+	lengthRow = len(matrix)
 	for _, row := range matrix {
-		lengthRow = len(row)
-		for _, column := range row {
-			lengthColumn = len(column)
-		}
+		lengthColumn = len(row)
 	}
 
 	if lengthColumn != lengthRow {

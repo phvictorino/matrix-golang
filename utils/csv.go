@@ -12,29 +12,41 @@ func CsvTransformer(response http.ResponseWriter, request *http.Request) [][]int
 
 	file, _, err := request.FormFile("file")
 	if err != nil {
-		http.Error(response, "Error to convert CSV", http.StatusInternalServerError)
+		http.Error(response, "Error to open File", http.StatusInternalServerError)
 	}
 	defer file.Close()
 
 	result, error := csv.NewReader(file).ReadAll()
 
 	if error != nil {
-		http.Error(response, "Error to convert CSV", http.StatusInternalServerError)
+		http.Error(response, "Error to convert file to CSV", http.StatusInternalServerError)
+		return nil
 	}
 
-	intMatrix, convertError := convertValuesFromStringToInt(result)
+	validatedMatrix, error := validateMatrixAndCovertElementsToInt(result)
 
-	if convertError != nil {
-		http.Error(response, convertError.Error(), http.StatusBadRequest)
+	if error != nil {
+		http.Error(response, error.Error(), http.StatusBadRequest)
+		return nil
 	}
 
-	squareError := validateSquareMatrix(intMatrix)
+	return validatedMatrix
+}
+
+func validateMatrixAndCovertElementsToInt(matrix [][]string) ([][]int, error) {
+	squareError := validateSquareMatrix(matrix)
 
 	if squareError != nil {
-		http.Error(response, squareError.Error(), http.StatusInternalServerError)
+		return nil, squareError
 	}
 
-	return intMatrix
+	intMatrix, convertError := convertValuesFromStringToInt(matrix)
+
+	if convertError != nil {
+		return nil, convertError
+	}
+
+	return intMatrix, nil
 }
 
 func convertValuesFromStringToInt(matrix [][]string) ([][]int, error) {
@@ -53,7 +65,7 @@ func convertValuesFromStringToInt(matrix [][]string) ([][]int, error) {
 	return newMatrix, nil
 }
 
-func validateSquareMatrix(matrix [][]int) error {
+func validateSquareMatrix(matrix [][]string) error {
 	var lengthRow, lengthColumn int
 	lengthRow = len(matrix)
 	for _, row := range matrix {

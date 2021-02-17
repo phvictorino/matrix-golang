@@ -6,7 +6,7 @@ import (
 )
 
 // SumService sums whole values of a given matrix
-func SumService(matrix [][]int) string {
+func SumService(matrix [][]int, channel chan string) {
 	flattenArray := utils.FlatMatrixToArray(matrix)
 
 	sum := 0
@@ -14,5 +14,5 @@ func SumService(matrix [][]int) string {
 		sum += value
 	}
 
-	return strconv.Itoa(sum)
+	channel <- "Sum: " + strconv.Itoa(sum)
 }

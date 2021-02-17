@@ -4,7 +4,7 @@ import (
 	"test/utils"
 )
 
-// EchoService just echoes the matrix with commas between numbers
-func EchoService(matrix [][]int) string {
-	return utils.TransformMatrixToString(matrix)
+// EchoService echoes the matrix with commas between numbers
+func EchoService(matrix [][]int, channel chan string) {
+	channel <- "Echo: " + utils.TransformMatrixToString(matrix)
 }

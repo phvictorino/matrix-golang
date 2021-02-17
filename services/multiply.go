@@ -6,7 +6,7 @@ import (
 )
 
 // MultiplyService multiply whole values of a given matrix
-func MultiplyService(matrix [][]int) string {
+func MultiplyService(matrix [][]int, channel chan string) {
 	flattenArray := utils.FlatMatrixToArray(matrix)
 
 	sum := 1
@@ -14,6 +14,5 @@ func MultiplyService(matrix [][]int) string {
 		sum += value * sum
 	}
 
-	return strconv.Itoa(sum)
-
+	channel <- "Multiply: " + strconv.Itoa(sum)
 }

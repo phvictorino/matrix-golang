@@ -5,7 +5,7 @@ import (
 )
 
 // InvertService inverts the matrix
-func InvertService(matrix [][]int) string {
+func InvertService(matrix [][]int, channel chan string) {
 
 	newArray := make([][]int, len(matrix))
 	utils.InitializeRowsOfSlice(newArray)
@@ -17,7 +17,7 @@ func InvertService(matrix [][]int) string {
 	}
 
 	// Used this just to respond the http request
-	formattedSlice := utils.TransformMatrixToString(newArray)
-	return formattedSlice
 
+	formattedSlice := utils.TransformMatrixToString(newArray)
+	channel <- "Invert: " + formattedSlice
 }

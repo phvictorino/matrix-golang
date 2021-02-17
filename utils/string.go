@@ -14,16 +14,17 @@ func TransformArrayToContinuousString(array []int) string {
 			result.WriteString(",")
 		}
 	}
+	result.WriteString("\n")
 	return result.String()
 }
 
 // TransformMatrixToString receive a matrix and return formatted string with break lines
 func TransformMatrixToString(slice [][]int) string {
 	var result strings.Builder
-	for _, element := range slice {
-		for index2, element2 := range element {
-			result.WriteString(strconv.Itoa(element2))
-			if index2 < len(slice)-1 {
+	for _, row := range slice {
+		for indexColumn, column := range row {
+			result.WriteString(strconv.Itoa(column))
+			if indexColumn < len(slice)-1 {
 				result.WriteString(",")
 			}
 		}

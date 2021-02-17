@@ -5,9 +5,7 @@ import (
 )
 
 // FlattenService flat given array and return elements separated by comma
-func FlattenService(matrix [][]int) string {
+func FlattenService(matrix [][]int, channel chan string) {
 	flattenArray := utils.FlatMatrixToArray(matrix)
-
-	// Used this just to respond the http request
-	return utils.TransformArrayToContinuousString(flattenArray)
+	channel <- "Flatten: " + utils.TransformArrayToContinuousString(flattenArray)
 }

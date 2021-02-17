@@ -1,7 +1,6 @@
 package services
 
 import (
-	"test/matrixstring"
 	"test/utils"
 )
 
@@ -17,7 +16,7 @@ func InvertService(matrix [][]int) string {
 		}
 	}
 
-	formattedSlice := matrixstring.TransformMatrixToString(newArray)
+	formattedSlice := utils.TransformMatrixToString(newArray)
 	return formattedSlice
 
 }

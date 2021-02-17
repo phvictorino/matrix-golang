@@ -1,10 +1,10 @@
 package services
 
 import (
-	"test/matrixstring"
+	"test/utils"
 )
 
 // EchoService echoes the matrix
 func EchoService(matrix [][]int) string {
-	return matrixstring.TransformMatrixToString(matrix)
+	return utils.TransformMatrixToString(matrix)
 }

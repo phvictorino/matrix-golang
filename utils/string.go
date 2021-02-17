@@ -1,4 +1,4 @@
-package matrixstring
+package utils
 
 import (
 	"strconv"

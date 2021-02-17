@@ -16,6 +16,7 @@ func InvertService(matrix [][]int) string {
 		}
 	}
 
+	// Used this just to respond the http request
 	formattedSlice := utils.TransformMatrixToString(newArray)
 	return formattedSlice
 

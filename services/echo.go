@@ -4,7 +4,7 @@ import (
 	"test/utils"
 )
 
-// EchoService echoes the matrix
+// EchoService just echoes the matrix with commas between numbers
 func EchoService(matrix [][]int) string {
 	return utils.TransformMatrixToString(matrix)
 }

@@ -9,7 +9,7 @@ func TestSum(t *testing.T) {
 	expectedResult := "45"
 	result := SumService(input)
 	if expectedResult != result {
-		t.Errorf("Multiply result doesn't match")
+		t.Errorf("Sum result doesn't match")
 		t.Errorf("Expected: %s | Result: %s", expectedResult, result)
 	}
 }

@@ -19,5 +19,5 @@ func InvertService(matrix [][]int, channel chan string) {
 	// Used this just to respond the http request
 
 	formattedSlice := utils.TransformMatrixToString(newArray)
-	channel <- "Invert: " + formattedSlice
+	channel <- "Invert:\n" + formattedSlice
 }
